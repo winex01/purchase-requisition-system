@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Employees;
 use App\Filament\Resources\Employees\Pages\ManageEmployees;
 use App\Models\Employee;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -13,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -58,7 +60,10 @@ class EmployeeResource extends Resource
                         TextInput::make('name')
                             ->required()
                             ->unique('departments', 'name'),
-                    ]),
+                    ])
+                    ->createOptionAction(
+                        fn (Action $action) => $action->modalWidth(Width::Medium)
+                    ),
                 TextInput::make('position')
                     ->maxLength(255),
                 Select::make('user_id')
