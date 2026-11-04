@@ -20,6 +20,9 @@ class RequisitionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
 
+    protected static ?string $navigationLabel = 'Requisitions';
+    protected static ?int $navigationSort = 1;
+
     public static function form(Schema $schema): Schema
     {
         return RequisitionForm::configure($schema);
