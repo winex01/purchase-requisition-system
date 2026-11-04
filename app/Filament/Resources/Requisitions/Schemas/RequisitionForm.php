@@ -16,7 +16,7 @@ use Filament\Schemas\Schema;
 
 class RequisitionForm
 {
-    public static function configure(Schema $schema): Schema
+    public static function configure(Schema $schema, bool $forOwner = false): Schema
     {
         return $schema->components([
             Section::make('Request details')
@@ -24,6 +24,7 @@ class RequisitionForm
                 ->columnSpanFull()
                 ->schema([
                     Select::make('employee_id')
+                        ->hidden($forOwner)
                         ->label('Requested by')
                         ->relationship('employee', 'last_name')
                         ->getOptionLabelFromRecordUsing(fn (Employee $record) => $record->full_name)
@@ -36,6 +37,7 @@ class RequisitionForm
                             Employee::find($state)?->department_id
                         )),
                     Select::make('department_id')
+                        ->hidden($forOwner)
                         ->label('Department')
                         ->relationship('department', 'name')
                         ->searchable()

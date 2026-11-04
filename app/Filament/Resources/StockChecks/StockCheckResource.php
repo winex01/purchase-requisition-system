@@ -11,6 +11,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -114,13 +115,30 @@ class StockCheckResource extends Resource
                     ->visible(fn (Requisition $record) => $record->items->isNotEmpty()
                         && ! $record->items->contains('stock_status_id', $uncheckedId))
                     ->action(function (Requisition $record) {
-                        $record->update([
-                            'requisition_status_id' => RequisitionStatus::idOf('for_purchasing'),
-                        ]);
+                        $record->moveTo('for_purchasing');
 
                         Notification::make()
                             ->title("{$record->reference_no} forwarded to Purchaser")
                             ->success()
+                            ->send();
+                    }),
+
+                Action::make('return')
+                    ->label('Return for revision')
+                    ->icon(Heroicon::OutlinedArrowUturnLeft)
+                    ->color('warning')
+                    ->schema([
+                        Textarea::make('note')
+                            ->label('What needs to be changed?')
+                            ->required()
+                            ->rows(3),
+                    ])
+                    ->action(function (Requisition $record, array $data) {
+                        $record->moveTo('returned', $data['note']);
+
+                        Notification::make()
+                            ->title("{$record->reference_no} returned to requester")
+                            ->warning()
                             ->send();
                     }),
             ]);

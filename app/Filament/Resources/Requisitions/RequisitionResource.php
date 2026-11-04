@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class RequisitionResource extends Resource
 {
@@ -20,8 +21,13 @@ class RequisitionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
 
-    protected static ?string $navigationLabel = 'Requisitions';
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationLabel = 'All Requisitions';
+    protected static ?int $navigationSort = 2;
+
+    public static function canEdit(Model $record): bool
+    {
+        return $record->isEditable();
+    }
 
     public static function form(Schema $schema): Schema
     {

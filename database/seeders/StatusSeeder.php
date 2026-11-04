@@ -19,6 +19,8 @@ class StatusSeeder extends Seeder
                 ['code' => 'stock_pending',  'name' => 'Awaiting Stock Check', 'color' => 'info',    'sort_order' => 1],
                 ['code' => 'for_purchasing', 'name' => 'For Procurement',      'color' => 'warning', 'sort_order' => 2],
                 ['code' => 'received',       'name' => 'Received',             'color' => 'success', 'sort_order' => 3],
+                ['code' => 'returned',  'name' => 'Returned for Revision', 'color' => 'danger', 'sort_order' => 4],
+                ['code' => 'cancelled', 'name' => 'Cancelled',             'color' => 'gray',   'sort_order' => 5],
             ],
             StockStatus::class => [
                 ['code' => 'unchecked',    'name' => 'Not checked',  'color' => 'gray',    'sort_order' => 1],

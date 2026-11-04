@@ -109,9 +109,7 @@ class PurchasingResource extends Resource
                             ->doesntExist();
 
                         if ($allReceived) {
-                            $record->update([
-                                'requisition_status_id' => RequisitionStatus::idOf('received'),
-                            ]);
+                            $record->moveTo('received');
 
                             Notification::make()
                                 ->title("{$record->reference_no} fully received — moved to Records")
